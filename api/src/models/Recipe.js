@@ -8,5 +8,28 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    image: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    resumen:{
+      type: DataTypes.TEXT,
+       allowNull: true
+     },
+     health:{
+      type: DataTypes.INTEGER,
+      allowNull: false,
+     },
+     pasos:{
+      type: DataTypes.TEXT,
+      allowNull: true
+
+     }
   });
 };
