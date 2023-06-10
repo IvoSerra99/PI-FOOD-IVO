@@ -4,13 +4,13 @@ const {Recipe} = require("../db")
 const axios = require("axios")
 
 
-const getRecipeId = (req, res) => {  
+const getRecipeId = async (req, res) => {  
+    const {idRecipe} = req.params;
+    const id = Number(idRecipe)
     try {
-        const {idRecipe} = req.params;
-        const RecipeId = Number(idRecipe)
-        const findDB = Recipe.findAll({where: {id: RecipeId}}) 
-        const {result} = (await (axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&number=100&addRecipeInformation=true`)))
-        const find = result.filter((e) => e.id === RecipeId)
+        const findDB = await Recipe.findAll({where: {id}}) 
+        const {results} = (await (axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&number=100&addRecipeInformation=true`))).data
+        const find = results.filter((e) => e.id === id)
         if(findDB == null && find.length === 0 ){
             res.status(400).send("Receta no encontrada")
         }
