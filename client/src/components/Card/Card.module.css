@@ -1,0 +1,37 @@
+.card {
+    width: 300px;
+    padding: 20px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+  
+  .image {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+  }
+  
+  .cardContent {
+    margin-top: 10px;
+  }
+  
+  .name {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .diets {
+    margin-top: 10px;
+  }
+  
+  .dietsTitle {
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  .dietsList {
+    list-style-type: disc;
+    margin-left: 20px;
+  }
