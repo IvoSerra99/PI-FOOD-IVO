@@ -10,13 +10,13 @@ const clean = (arr) => {
       };
     });
   };
-
+ 
 const allDiets = async () => {
     
     const {results} = (await (axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&number=100&addRecipeInformation=true`))).data
    
     const apiClean = clean(results)
-    console.log(`apiClean: ${apiClean}`)
+    
     const dietSet = new Set()
 
     apiClean.forEach((e) => {
@@ -26,7 +26,7 @@ const allDiets = async () => {
     })
 
     const dietList = [...dietSet]
-    console.log(`dietList: ${dietList}`)
+    
     for (const dietName of dietList) {
         await Diet.findOrCreate({
           where: { name: dietName },
@@ -34,7 +34,7 @@ const allDiets = async () => {
       }
 
     const dietsDB = await Diet.findAll()
-    console.log(`dietsDB: ${dietsDB}`)
+    
     return [...dietsDB]
 }
 module.exports= {allDiets}

@@ -1,8 +1,8 @@
-import { GET_ALL, GET_ID } from "./action-types"
+import { GET_ALL, FIND_RECIPE} from "./action-types"
 
 const initialState = {
     recipes : [],
-    id: []
+   
 }
 
 const reducer = (state = initialState, action) => {
@@ -12,11 +12,11 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 recipes: action.payload
             }
-        case GET_ID:
-            return {
+        case FIND_RECIPE:
+            return  {
                 ...state,
-                id: action.payload
-            }    
+                recipes: action.payload
+            }       
         default:
           return  {...state}
     }

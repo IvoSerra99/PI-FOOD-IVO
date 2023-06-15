@@ -19,7 +19,7 @@ const getRecipeId = async (req, res) => {
               health: find[0].healthScore,
               id: find[0].id,
               name: find[0].title,
-              imagen: find[0].imagen,
+              image: find[0].image,
               resumen: find[0].summary,
               pasos:find[0].analyzedInstructions,
               diets: find[0].diets

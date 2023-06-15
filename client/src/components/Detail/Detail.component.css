@@ -1,4 +1,0 @@
-const dispatch = useDispatch()
-    useEffect(() =>{
-      dispatch(getId(id))
-    },[])

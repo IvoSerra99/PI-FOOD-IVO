@@ -1,4 +1,4 @@
-import { GET_ALL, GET_ID } from "./action-types";
+import { GET_ALL, FIND_RECIPE } from "./action-types";
 import axios from "axios"
 
 export const getAll = () => {
@@ -8,11 +8,13 @@ export const getAll = () => {
     }
        
 }
-export const getId = (id) => {
+export const getName = (name) => {
     return async function (dispatch){
-        const {data} = await axios.get(`http://localhost:3001/recipes/${id}`)
-        dispatch({type: GET_ID, payload: data})
+        const {data} = await axios.get(`http://localhost:3001/recipes?name=${name}`)
+        dispatch({type: FIND_RECIPE, payload: data})
     }
+       
 }
+
 
 

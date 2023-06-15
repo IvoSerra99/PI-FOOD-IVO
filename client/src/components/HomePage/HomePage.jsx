@@ -8,7 +8,7 @@ export default function HomePage () {
     
     useEffect(() =>{
         dispatch(getAll())
-    },[])
+    },[dispatch])
     return(
         <div>
             <Cards/>
