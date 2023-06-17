@@ -1,9 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import style from "./Form.module.css";
 import validate from "./validate";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import {getDiets}  from "../../redux/action"
 
 const FormPage = () => {
+  const dispatch = useDispatch()
+
+  useEffect(() =>{
+    dispatch(getDiets())
+    },[dispatch])
+
+  const diets = useSelector((state) => state.diets)
+
   const [form, setForm] = useState({
     name: "",
     resumen: "",
@@ -13,7 +23,7 @@ const FormPage = () => {
     diets: [],
   });
   const [errors, setErrors] = useState({});
-
+  
   const changeHandler = (event) => {
     const property = event.target.name;
     const value = event.target.value;
@@ -29,19 +39,21 @@ const FormPage = () => {
     axios
       .post("http://localhost:3001/recipes", form)
       .then((res) => alert(res.data))
-      .catch((error) => console.log(error.data));
+      .catch((error) => console.log(error.message));
   };
   const dietChangeHandler = (event) => {
     const value = event.target.value;
     const isChecked = event.target.checked;
 
     if (isChecked) {
-      setForm({ ...form, diets: [...form.diets, value] });
+      const dietFind = diets.filter((e) => e.name === value)
+
+      setForm({ ...form, diets: [...form.diets, ...dietFind]});
     } else {
       setForm({ ...form, diets: form.diets.filter((diet) => diet !== value) });
     }
   };
-
+  console.log(form)
   return (
     <>
       <form onSubmit={submitHandler} className={style.form}>

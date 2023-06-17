@@ -1,21 +1,24 @@
 const {Recipe} = require("../db")
+const {Diet} = require("../db")
 
 const postRecipe = async (req, res) =>{
+    const {name, image, resumen, health, pasos, diets} = req.body
     try {
-        const {name, image, resumen, health, pasos, diets} = req.body
         
         if(!name || !image || !resumen || !health || !pasos || !diets ){
             return res.status(404).send("Falta información")
         }
-        await Recipe.create({
+        const recetaCreada = await Recipe.create({
             name,
             image,
             resumen,
             health,
             pasos,
-            diets
         })
-        return res.status(200).send("Receta creada exitosamente")
+        
+        diets.map((e) => Diet.addDiets(e))
+        return res.status(200).send(recetaCreada)
+        
     } catch (error) {
         console.error(error.message)
         res.status(500).send(error.message)

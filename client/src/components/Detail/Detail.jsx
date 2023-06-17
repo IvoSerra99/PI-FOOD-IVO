@@ -19,13 +19,13 @@ export default function Detail () {
                 console.log(error); 
             });
     },[id])
-   console.log(recipe);
+   
     return (
     <div className={style.card}>
       <div className={style.recipeCard}>
-        <img src={recipe.image} alt={recipe.name} className={style.recipeImage} />
+        <img src={recipe.image} alt={recipe.title} className={style.recipeImage} />
         <div className={style.recipeInfo}>
-          <h2>{recipe.name}</h2>
+          <h2>{recipe.title}</h2>
           <p>{recipe.resume}</p>
           <p>Health Score: {recipe.health}</p>
           <h3>Paso a Paso:</h3>

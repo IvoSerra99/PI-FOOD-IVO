@@ -28,7 +28,8 @@ const recipeByName = async (name) => {
             id: e.id,
             health: e.healthScore,
             pasos: e.analyzedInstructions,
-            diets: e.diets
+            diets: e.diets,
+            api: true
         }
         return obj
     })
