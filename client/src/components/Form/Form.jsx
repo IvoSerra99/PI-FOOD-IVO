@@ -3,17 +3,17 @@ import style from "./Form.module.css";
 import validate from "./validate";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import {getDiets}  from "../../redux/action"
+import { getDiets } from "../../redux/action";
 
 const FormPage = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  useEffect(() =>{
-    dispatch(getDiets())
-    },[dispatch])
+  useEffect(() => {
+    dispatch(getDiets());
+  }, [dispatch]);
 
-  const diets = useSelector((state) => state.diets)
-
+  const diets = useSelector((state) => state.diets);
+  console.log(`diets: ${diets}`);
   const [form, setForm] = useState({
     name: "",
     resumen: "",
@@ -23,7 +23,7 @@ const FormPage = () => {
     diets: [],
   });
   const [errors, setErrors] = useState({});
-  
+  console.log(form.diets);
   const changeHandler = (event) => {
     const property = event.target.name;
     const value = event.target.value;
@@ -46,18 +46,22 @@ const FormPage = () => {
     const isChecked = event.target.checked;
 
     if (isChecked) {
-      const dietFind = diets.filter((e) => e.name === value)
-
-      setForm({ ...form, diets: [...form.diets, ...dietFind]});
+      setForm((form) => ({
+        ...form,
+        diets: [...form.diets, value],
+      }));
     } else {
-      setForm({ ...form, diets: form.diets.filter((diet) => diet !== value) });
+      setForm((form) => ({
+        ...form,
+        diets: form.diets.filter((diet) => diet !== value),
+      }));
     }
   };
-  console.log(form)
+  console.log(form);
   return (
     <>
       <form onSubmit={submitHandler} className={style.form}>
-        <div className={style.container}>
+        <div>
           <div>
             <label>Receta</label>
             <input
@@ -120,107 +124,22 @@ const FormPage = () => {
       </form>
       <div>
         <label>Diets</label>
-        <div className={style.dietsContainer}>
-          <div>
-            <label>gluten free</label>
-            <input
-              type="checkbox"
-              value="gluten free"
-              name="diets"
-              checked={form.diets.includes("gluten free")}
-              onChange={dietChangeHandler}
-            />
-          </div>
-          <div>
-            <label>dairy free</label>
-            <input
-              type="checkbox"
-              value="dairy free"
-              name="diets"
-              checked={form.diets.includes("dairy free")}
-              onChange={dietChangeHandler}
-            />
-          </div>
-          <div>
-            <label>lacto ovo vegetarian</label>
-            <input
-              type="checkbox"
-              value="lacto ovo vegetarian"
-              name="diets"
-              checked={form.diets.includes("lacto ovo vegetarian")}
-              onChange={dietChangeHandler}
-            />
-          </div>
-          <div>
-            <label>vegan</label>
-            <input
-              type="checkbox"
-              value="vegan"
-              name="diets"
-              checked={form.diets.includes("vegan")}
-              onChange={dietChangeHandler}
-            />
-          </div>
-          <div>
-            <label>paleolithic</label>
-            <input
-              type="checkbox"
-              value="paleolithic"
-              name="diets"
-              checked={form.diets.includes("paleolithic")}
-              onChange={dietChangeHandler}
-            />
-          </div>
-          <div>
-            <label>primal</label>
-            <input
-              type="checkbox"
-              value="primal"
-              name="diets"
-              checked={form.diets.includes("primal")}
-              onChange={dietChangeHandler}
-            />
-          </div>
-          <div>
-            <label>whole 30</label>
-            <input
-              type="checkbox"
-              value="whole 30"
-              name="diets"
-              checked={form.diets.includes("whole 30")}
-              onChange={dietChangeHandler}
-            />
-          </div>
-          <div>
-            <label>pescatarian</label>
-            <input
-              type="checkbox"
-              value="pescatarian"
-              name="diets"
-              checked={form.diets.includes("pescatarian")}
-              onChange={dietChangeHandler}
-            />
-          </div>
-          <div>
-            <label>ketogenic </label>
-            <input
-              type="checkbox"
-              value="ketogenic"
-              name="diets"
-              checked={form.diets.includes("ketogenic")}
-              onChange={dietChangeHandler}
-            />
-          </div>
-          <div>
-            <label>fodmap friendly </label>
-            <input
-              type="checkbox"
-              value="fodmap friendly"
-              name="diets"
-              checked={form.diets.includes("fodmap friendly")}
-              onChange={dietChangeHandler}
-            />
-          </div>
+        <div>
+          {diets.map((e) => {
+            const id = String(e.id); // Asegúrate de convertir el ID en una cadena
+            return (
+              <div key={e.id}>
+                <label>{e.name}</label>
+                <input
+                  type="checkbox"
+                  value={id}
+                  name="diets"
+                  checked={form.diets.includes(id)}
+                  onChange={dietChangeHandler}
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
     </>

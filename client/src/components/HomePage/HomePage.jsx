@@ -1,24 +1,47 @@
 import { useDispatch } from "react-redux";
 import Cards from "../Cards/Cards";
-//import { useEffect } from "react";
-//import { useDispatch } from "react-redux";
-//import {getAll}  from "../../redux/action";
 import Paginated from "../Paginated/Paginated";
-import { nextPage } from "../../redux/action";
-import { useEffect } from "react";
+import { IsFromApi, nextPage, orderAlfaRecipes, orderRecipes } from "../../redux/action";
+import { useEffect, useState } from "react";
 
-export default function HomePage () {
-    const dispatch = useDispatch()
-    
-    useEffect(() =>{
-        dispatch(nextPage(0))
-        
-    },[dispatch])
-    
-    return(
-        <div>
-            <Paginated/>
-            <Cards/>
-        </div>
-    );
+export default function HomePage() {
+  const [axu, setAux] = useState(false);
+
+  const handleOrder = (event) => {
+    dispatch(orderRecipes(event.target.value));
+    setAux(!axu);
+  };
+  const handleOrderAlfa = (event) => {
+    dispatch(orderAlfaRecipes(event.target.value));
+    setAux(!axu);
+  };
+  const handleFromApi = (event) => {
+    dispatch(IsFromApi(event.target.value));
+    setAux(!axu);
+  };
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(nextPage());
+  }, [dispatch]);
+
+
+  return (
+    <div>
+      <Paginated />
+      <select onChange={handleOrder}>
+        <option value="A">Ascendente</option>
+        <option value="B">Descendente</option>
+      </select>
+      <select onChange={handleOrderAlfa}>
+        <option value="A">A...Z</option>
+        <option value="Z">Z...A</option>
+      </select>
+      <select onChange={handleFromApi}>
+        <option value="A">Apis Recipes</option>
+        <option value="D">DB Recipes</option>
+      </select>
+      <Cards />
+    </div>
+  );
 }

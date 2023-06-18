@@ -1,4 +1,4 @@
- const results = [
+const results = [
   {
     vegetarian: true,
     vegan: true,

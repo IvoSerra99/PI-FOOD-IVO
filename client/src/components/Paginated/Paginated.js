@@ -1,35 +1,28 @@
-import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { nextPage } from "../../redux/action"
+import { nextPage, prevPage } from "../../redux/action"
 
 export default function Paginated () {
 
+    const paginado = useSelector((state) => state.paginado)
     
-    
-    const filtrado = useSelector((state) => state.recipeName)
-    console.log(`filtrado: ${filtrado}`);
-
     const dispatch = useDispatch()
 
-    const [current, setCurrent] = useState(0)
-    const [pagina, setPagina] = useState(1)
-
     const handlerNext = () => {
-        setPagina(pagina + 1)
-        setCurrent(current + 9)
-        dispatch(nextPage(current))
-    }
-    const handlerPrev = () => {
-        if (current !== 0) {
-            setCurrent(current - 1)
-            dispatch(nextPage(current)) 
+        if(paginado < 12){
+            dispatch(nextPage())
         }
     }
+    const handlerPrev = () => {
+        
+        if(paginado > 1){
+            dispatch(prevPage())
+        }
+    }   
     
     return(
        <div>
        <button onClick={handlerPrev}>prev</button>
-        <p>Current Page {pagina}</p>
+        <p>Current Page {paginado}</p>
        <button onClick={handlerNext}>next</button>
        </div> 
     )

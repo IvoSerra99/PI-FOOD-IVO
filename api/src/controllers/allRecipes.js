@@ -6,6 +6,9 @@ const {Recipe} = require("../db")
 const allRecipes = async () => {
      
         const recipesDb = await Recipe.findAll()
+        // const respuestaDB = recipesDb.map((e) => {
+
+        // })
         const {results} = (await (axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&number=100&addRecipeInformation=true`))).data
         
         const respuestaApi = results.map((e) => {
