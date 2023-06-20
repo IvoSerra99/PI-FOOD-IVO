@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import style from "./Form.module.css";
 import validate from "./validate";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { getDiets } from "../../redux/action";
+import { getDiets, post } from "../../redux/action";
 
 const FormPage = () => {
   const dispatch = useDispatch();
@@ -13,7 +12,7 @@ const FormPage = () => {
   }, [dispatch]);
 
   const diets = useSelector((state) => state.diets);
-  console.log(`diets: ${diets}`);
+  
   const [form, setForm] = useState({
     name: "",
     resumen: "",
@@ -23,7 +22,7 @@ const FormPage = () => {
     diets: [],
   });
   const [errors, setErrors] = useState({});
-  console.log(form.diets);
+  
   const changeHandler = (event) => {
     const property = event.target.name;
     const value = event.target.value;
@@ -35,16 +34,20 @@ const FormPage = () => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-
-    axios
-      .post("http://localhost:3001/recipes", form)
-      .then((res) => alert(res.data))
-      .catch((error) => console.log(error.message));
+    dispatch(post(form))
+    setForm({
+    name: "",
+    resumen: "",
+    pasos: "",
+    health: "",
+    image: "",
+    diets: []
+  })
   };
   const dietChangeHandler = (event) => {
     const value = event.target.value;
     const isChecked = event.target.checked;
-
+    console.log(form)
     if (isChecked) {
       setForm((form) => ({
         ...form,
@@ -57,7 +60,7 @@ const FormPage = () => {
       }));
     }
   };
-  console.log(form);
+  const isFormValid = Object.keys(errors).length > 0 || Object.values(form).some(value => value === '');
   return (
     <>
       <form onSubmit={submitHandler} className={style.form}>
@@ -97,7 +100,7 @@ const FormPage = () => {
             {errors.e6 && <p>{errors.e6}</p>}
           </div>
           <div>
-            <label>HealdScore</label>
+            <label>HealtScore</label>
             <input
               type="number"
               name="health"
@@ -119,14 +122,17 @@ const FormPage = () => {
             {errors.e9 && <p>{errors.e9}</p>}
             {errors.e10 && <p>{errors.e10}</p>}
           </div>
-          <button type="submit">Agregar Receta</button>
+          <button 
+          type="submit" 
+          disabled={isFormValid}
+          >Agregar Receta</button>
         </div>
       </form>
       <div>
         <label>Diets</label>
         <div>
           {diets.map((e) => {
-            const id = String(e.id); // Asegúrate de convertir el ID en una cadena
+            const id = String(e.id); 
             return (
               <div key={e.id}>
                 <label>{e.name}</label>

@@ -1,18 +1,20 @@
 import {
   GET_ALL,
+  GET_DETAIL,
   FIND_RECIPE,
   All_DIETS,
   NEXT,
   PREV,
-  RESET,
   ORDER,
   ORDER_ALFA,
   ORDER_API,
+  FIND_DIET
 } from "./action-types";
 
 const initialState = {
   recipes: [],
   recipeName: [],
+  recipeDetail:[],
   diets: [],
   current: -9,
   paginado: 0,
@@ -26,10 +28,24 @@ const reducer = (state = initialState, action) => {
         recipes: action.payload,
         recipeName: action.payload,
       };
+    case GET_DETAIL:
+      return {
+        ...state,
+        recipeDetail: action.payload,
+      };
     case FIND_RECIPE:
       return {
         ...state,
         recipeName: action.payload,
+      };
+    case FIND_DIET:
+      const allRecipeOrderedDiet = [...state.recipes];
+      console.log(action.payload);
+      let filtrado = allRecipeOrderedDiet.filter((e) => e.hasOwnProperty('diets') && e.diets.includes(action.payload))
+      return {
+        ...state,
+        recipeName: filtrado
+            
       };
     case ORDER:
       const allRecipeOrdered = [...state.recipes];
@@ -81,13 +97,6 @@ const reducer = (state = initialState, action) => {
         recipeName: paginadoPrev,
         current: state.current - 9,
         paginado: state.paginado - 1,
-      };
-    case RESET:
-      return {
-        ...state,
-        recipeName: [...state.recipes],
-        current: -9,
-        paginado: 0,
       };
     default:
       return { ...state };

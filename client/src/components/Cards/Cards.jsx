@@ -15,6 +15,7 @@ export default function Cards () {
                 name={res.name}
                 image={res.image}
                 diets={res.diets}
+                health={res.health}
                 /> 
         })}
        </div> 

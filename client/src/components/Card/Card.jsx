@@ -3,7 +3,7 @@ import style from "./Card.module.css"
 
 
 export default function Card (props) {
-    const {name, image, id, diets, key} = props
+    const {name, image, id, diets, key, health} = props
     
     return (
         <div className={style.card} key={key}>
@@ -12,6 +12,7 @@ export default function Card (props) {
           <Link to={`/detail/${id}`}>
           <h3 className={style.name}>{name}</h3>
           </Link>
+          <p>{health}</p>
           <div className={style.diets}>
             <p className={style.dietsTitle}>Diets:</p>
             <ul className={style.dietsList}>

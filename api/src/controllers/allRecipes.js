@@ -12,7 +12,8 @@ const allRecipes = async () => {
       name: e.name,
       image: e.image,
       health: e.health,
-      
+      pasos: e.pasos,
+      diets: e.diets
     };
     return obj;
   });

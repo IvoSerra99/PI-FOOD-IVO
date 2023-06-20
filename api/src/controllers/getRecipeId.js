@@ -21,7 +21,7 @@ const getRecipeId = async (req, res) => {
               name: find[0].title,
               image: find[0].image,
               resumen: find[0].summary,
-              pasos:find[0].analyzedInstructions,
+              pasos: find[0].analyzedInstructions[0].steps,
               diets: find[0].diets
             }
            return res.status(200).json(receta);

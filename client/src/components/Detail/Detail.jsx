@@ -1,25 +1,21 @@
 import { useParams } from "react-router-dom"
-import axios from "axios"
-import { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { useEffect} from "react"
 import style from "./Detail.module.css"
+import { getDetail } from "../../redux/action"
 
 
 
 
 export default function Detail () {
     const {id} = useParams()
+    const dispatch = useDispatch()
     
-    const [recipe, setRecipe] = useState({});
-    useEffect(  () => {
-            axios(`http://localhost:3001/recipes/${id}`)
-            .then(({ data }) => {
-             setRecipe(data);
-            })
-            .catch((error) => {
-                console.log(error); 
-            });
-    },[id])
-   
+    useEffect(() => {
+        dispatch(getDetail(id)) 
+    },[dispatch, id])
+   const recipe = useSelector((state) => state.recipeDetail)
+   console.log(recipe.pasos);
     return (
     <div className={style.card}>
       <div className={style.recipeCard}>
@@ -30,7 +26,7 @@ export default function Detail () {
           <p>Health Score: {recipe.health}</p>
           <h3>Paso a Paso:</h3>
           <ol>
-          {recipe.pasos && recipe.pasos[0].steps.map((ele) => (
+          {recipe.pasos && recipe.pasos.map((ele) => (
                 <li>{ele.step}</li>
             ))}
           </ol>
