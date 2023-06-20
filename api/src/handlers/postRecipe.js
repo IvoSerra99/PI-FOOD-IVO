@@ -3,7 +3,7 @@ const { Diet } = require("../db");
 
 const postRecipe = async (req, res) => {
   const { name, image, resumen, health, pasos, diets } = req.body;
-  console.log(`diets: ${diets}`);
+  
   try {
     if (!name || !image || !resumen || !health || !pasos || !diets) {
       return res.status(404).send("Falta información");
@@ -15,16 +15,13 @@ const postRecipe = async (req, res) => {
       resumen,
       health,
       pasos,
-      diets,
+      diets
     });
-    const findDiets = await Diet.findAll({
-      where: {
-        id: diets,
-      },
-    });
+    const findDiets = await Diet.findAll({where: {id: diets,},});
     await recipe.addDiets(findDiets);
+    
 
-    return res.status(200).send("!Su receta fue creada exitosamente!");
+    return res.status(200).send("diets");
   } catch (error) {
     console.error(error.message);
     res.status(500).send(error.message);
